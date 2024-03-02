@@ -1,0 +1,22 @@
+.glassmorphism {
+    backdrop-filter: blur(10px);
+    transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.dark-mode .bg-white {
+    background-color: rgba(0, 0, 0, 0.15); /* Dark mode background color */
+}
+
+.dark-mode .glassmorphism {
+    box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.37);
+}
+
+.btn-primary {
+    background-color: #0d6efd; /* Primary button color */
+    border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7; /* Primary button hover color */
+    border-color: #0b5ed7;
+}
