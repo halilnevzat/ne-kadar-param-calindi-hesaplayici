@@ -55,8 +55,8 @@ Bu proje bir PHP backend'i gerektirdiğinden, yerel bir web sunucusunda (örneğ
 
 Geri bildirimlerinize ve önerilerinize açığım! Her türlü iyileştirme fikri, hata raporu veya katkı çok değerlidir.
 
-*   Hata raporları veya özellik istekleri için lütfen bir [GitHub Issue](https://github.com/KullaniciAdiniz/RepoAdiniz/issues) açın.
-*   Koda doğrudan katkıda bulunmak isterseniz, lütfen bir [Pull Request](https://github.com/KullaniciAdiniz/RepoAdiniz/pulls) gönderin.
+*   Hata raporları veya özellik istekleri için lütfen bir [GitHub Issue](https://github.com/halilnevzat/ne-kadar-param-calindi-hesaplayici/issues) açın.
+*   Koda doğrudan katkıda bulunmak isterseniz, lütfen bir [Pull Request](https://github.com/halilnevzat/ne-kadar-param-calindi-hesaplayici/pulls) gönderin.
 
 ## Geliştirici
 
