@@ -1,8 +1,5 @@
 # NE KADAR PARAM ÇALINDI ?
 
-![Proje Başlığı Resmi - Örnek: Bir döviz grafiği veya para sembolleri](https://via.placeholder.com/800x300?text=NE+KADAR+PARAM+%C3%87ALINDI+%3F)
-*(İsterseniz buraya projenizi temsil eden bir görsel ekleyebilirsiniz.)*
-
 ## Hakkında
 
 "NE KADAR PARAM ÇALINDI ?" aracı, Türk Lirası cinsinden maaşınızın seçtiğiniz bir başlangıç tarihinden itibaren Amerikan Doları karşısında ne kadar değer kaybettiğini ve aylık bazda yaşadığı kayıpları hesaplamak için geliştirilmiştir. Bu araç, ceplerimizden eriyip giden paraların hesabını sorabilmek ve bu değer kaybını somut verilerle gözlemleyebilmek amacıyla <a href="https://twitter.com/halilnevzat07" target="_blank">halilnevzat</a> tarafından hazırlanmıştır.
