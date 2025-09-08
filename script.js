@@ -11,15 +11,16 @@ document.getElementById("salaryForm").addEventListener("submit", function(event)
                 document.getElementById("result").innerHTML = `<p>${data.error}</p>`;
                 return;
             }
+            if (data.length === 0) {
+                 document.getElementById("result").innerHTML = `<p>Seçilen tarih aralığı için döviz kuru verisi bulunamadı veya PHP tarafında bir sorun oluştu.</p>`;
+                 return;
+            }
 
-            // Parse XML for the selected date (first element) and current date (last element)
-            const userXml = new DOMParser().parseFromString(data[0].xml, "text/xml");
-            const currentXml = new DOMParser().parseFromString(data[data.length - 1].xml, "text/xml");
+            // PHP script now returns 'usdRate' directly, no need for client-side XML parsing
+            const userExchangeRate = data[0].usdRate;
+            const currentExchangeRate = data[data.length - 1].usdRate; // Rate for the latest month in the fetched series
 
-            const userExchangeRate = parseFloat(userXml.querySelector('Currency[CurrencyCode="USD"] ForexBuying').textContent);
-            const currentExchangeRate = parseFloat(currentXml.querySelector('Currency[CurrencyCode="USD"] ForexBuying').textContent);
-
-            // Calculate USD and TRY reduction (overall reduction from start date to current date)
+            // Calculate USD and TRY reduction (overall reduction from start date to the latest data point)
             const historicalUSDAmount = salaryAmount / userExchangeRate;
             const currentUSDAmount = salaryAmount / currentExchangeRate;
             const reductionAmountUSD = historicalUSDAmount - currentUSDAmount;
@@ -39,30 +40,23 @@ document.getElementById("salaryForm").addEventListener("submit", function(event)
             let monthlyResults = "";
             let totalMonthlyLoss = 0;
 
-            // Store parsed XML and rates for easier access
-            const parsedData = data.map(entry => {
-                const xml = new DOMParser().parseFromString(entry.xml, "text/xml");
-                const rate = parseFloat(xml.querySelector('Currency[CurrencyCode="USD"] ForexBuying').textContent);
-                return { date: entry.date, rate: rate };
-            });
-
             // Iterate through the data to calculate monthly losses by comparing consecutive months
-            for (let i = 0; i < parsedData.length; i++) {
-                const startOfPeriodData = parsedData[i];
+            for (let i = 0; i < data.length; i++) {
+                const startOfPeriodData = data[i]; // e.g., { date: "2025-01-02", url: "...", usdRate: 35.2525 }
                 let endOfPeriodRate;
 
-                if (i < parsedData.length - 1) {
+                if (i < data.length - 1) {
                     // For all periods except the very last one, compare with the rate at the start of the next period.
-                    // Example: For Jan 2nd, compare with Feb 1st rate.
-                    endOfPeriodRate = parsedData[i + 1].rate;
+                    // Example: For Jan 2nd (rate), compare with Feb 1st (rate).
+                    endOfPeriodRate = data[i + 1].usdRate;
                 } else {
                     // For the last period in the data array (e.g., September 1st in your example),
-                    // compare with the 'currentExchangeRate', which is already the rate for the start of the current month.
+                    // compare with the 'currentExchangeRate', which is the rate for the start of this current month.
                     // This will result in a 0.00 TRY kayıp for the current (incomplete) month, consistent with your example.
-                    endOfPeriodRate = currentExchangeRate;
+                    endOfPeriodRate = currentExchangeRate; // Which is data[data.length - 1].usdRate
                 }
 
-                const salaryUSDAtStartOfPeriod = salaryAmount / startOfPeriodData.rate;
+                const salaryUSDAtStartOfPeriod = salaryAmount / startOfPeriodData.usdRate;
                 const salaryTRYAtEndOfPeriod = salaryUSDAtStartOfPeriod * endOfPeriodRate;
                 const lossTRY = salaryAmount - salaryTRYAtEndOfPeriod;
 
@@ -79,7 +73,7 @@ document.getElementById("salaryForm").addEventListener("submit", function(event)
             `;
         })
         .catch(err => {
-            console.error(err);
-            document.getElementById("result").innerHTML = "<p>Veri alınırken hata oluştu.</p>";
+            console.error("Veri alınırken hata oluştu veya PHP sunucusuna ulaşılamadı:", err);
+            document.getElementById("result").innerHTML = "<p>Veri alınırken hata oluştu veya PHP sunucusuna ulaşılamadı. Sunucu loglarını kontrol edin.</p>";
         });
 });
